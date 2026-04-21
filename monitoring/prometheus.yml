@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s # ระยะเวลาที่จะดึงข้อมูล (ทุกๆ 15 วินาที)
+  evaluation_interval: 15s
+
+scrape_configs:
+  # ตั้งค่าให้ Prometheus ไปดึงข้อมูลจาก App ของเรา
+  - job_name: 'sentinella-api'
+    static_configs:
+      - targets: ['app:8000']

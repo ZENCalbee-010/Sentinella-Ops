@@ -1,0 +1,90 @@
+name: Sentinella-Ops CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  REGISTRY: ghcr.io # GitHub Container Registry
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Job 1: ตรวจสอบความถูกต้องของโค้ดและการทำงาน (Lint & Test)
+  test:
+    name: Lint & Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+          
+      - name: Run tests
+        run: |
+          pytest app/test_main.py
+
+  # Job 2: ตรวจสอบความปลอดภัยของ Docker Image (Security Scan)
+  security-scan:
+    name: Security Scan (Trivy)
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build image for scan
+        run: docker build -t sentinella-app:${{ github.sha }} .
+        
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'sentinella-app:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1' # ถ้าเจอช่องโหว่ร้ายแรง ให้ Pipeline หยุดทำงานทันที
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+  # Job 3: แพ็ก Image และนำขึ้น Registry (Build & Push)
+  build-and-push:
+    name: Build & Push to GHCR
+    runs-on: ubuntu-latest
+    needs: security-scan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

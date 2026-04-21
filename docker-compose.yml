@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # บริการแอปหลัก (Sentinella API)
+  app:
+    build: .
+    container_name: sentinella-app
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - sentinella-network
+
+  # บริการ Prometheus สำหรับเก็บข้อมูล Metrics
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: sentinella-prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - sentinella-network
+
+  # บริการ Grafana สำหรับสร้าง Dashboard สวยๆ
+  grafana:
+    image: grafana/grafana:latest
+    container_name: sentinella-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana-provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - prometheus
+    networks:
+      - sentinella-network
+
+networks:
+  sentinella-network:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+  grafana-data:

@@ -1,0 +1,25 @@
+# Tasks: Sentinella-Ops Implementation
+
+- [x] Project Structure Initialization
+- [x] Application Development
+    - [x] `app/main.py` (FastAPI + Metrics)
+    - [x] `app/test_main.py`
+    - [x] `app/requirements.txt`
+- [x] Containerization
+    - [x] `Dockerfile` (Multi-stage)
+    - [x] `docker-compose.yml`
+- [x] Observability Setup
+    - [x] `monitoring/prometheus.yml`
+    - [x] `monitoring/grafana-provisioning/datasources/ds-prometheus.yml`
+    - [x] `monitoring/grafana-provisioning/dashboards/dashboard-provider.yml`
+    - [x] `monitoring/sentinella-dashboard.json`
+- [x] CI/CD Pipeline
+    - [x] `.github/workflows/pipeline.yml` (Test, Scan, Build, Push)
+- [x] Bonus: Infrastructure-as-Code
+    - [x] `terraform/main.tf`
+- [x] Final Polish
+    - [x] `scripts/setup.sh`
+    - [x] `README.md`
+- [x] Verification
+    - [x] Run local tests
+    - [x] Verify Docker Compose startup
