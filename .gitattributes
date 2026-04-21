@@ -1,2 +1,3 @@
-# Auto detect text files and perform LF normalization
+# กำหนดให้ Git จัดการไฟล์ข้อความให้เป็นรูปแบบเดียวกัน (LF)
+# ช่วยป้องกันปัญหาเรื่องบรรทัดใหม่ที่แตกต่างกันระหว่าง Windows และ Linux
 * text=auto
