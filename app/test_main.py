@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from .main import app
+from main import app
 
 # สร้าง TestClient เพื่อจำลองการเรียกใช้งาน API
 client = TestClient(app)
