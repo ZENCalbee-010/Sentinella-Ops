@@ -1,12 +1,14 @@
 # Stage 1: ขั้นตอนการ Build dependencies
 FROM python:3.11-slim AS builder
+FROM debian:bookworm-slim  # ใช้ version ใหม่กว่า
+
 
 WORKDIR /build
 
 # ติดตั้ง dependencies และ Patch ช่องโหว่ความปลอดภัยระดับ OS
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+  build-essential \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY app/requirements.txt .
 # ติดตั้ง library ลงใน .local เพื่อเตรียมก๊อปปี้ไปที่ Stage ถัดไป
@@ -17,8 +19,8 @@ FROM python:3.11-slim
 
 # Patch ช่องโหว่ และติดตั้ง curl สำหรับ Healthcheck
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+  curl \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
