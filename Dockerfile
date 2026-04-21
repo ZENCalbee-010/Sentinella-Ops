@@ -1,6 +1,5 @@
 # Stage 1: ขั้นตอนการ Build dependencies
-FROM python:3.11-slim AS builder
-FROM debian:bookworm-slim  # ใช้ version ใหม่กว่า
+FROM python:3.11-slim-bookworm AS builder
 
 
 WORKDIR /build
@@ -15,7 +14,7 @@ COPY app/requirements.txt .
 RUN pip install --user --no-cache-dir -r requirements.txt
 
 # Stage 2: ขั้นตอนการสร้าง Production Image (เน้นขนาดเล็กและปลอดภัย)
-FROM python:3.11-slim
+FROM python:3.11-slim-bookworm
 
 # Patch ช่องโหว่ และติดตั้ง curl สำหรับ Healthcheck
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
