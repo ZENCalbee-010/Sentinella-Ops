@@ -1,8 +1,24 @@
+<div align="center">
+
+![Sentinella-Ops Banner](assets/banner.png)
+
 # 🛡️ Sentinella-Ops
+### *Automated Secure-CI/CD Pipeline with Real-time Monitoring*
 
-**Automated Secure-CI/CD Pipeline with Real-time Monitoring.**
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/features/actions)
+[![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white)](https://prometheus.io/)
+[![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white)](https://grafana.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-Sentinella-Ops is a production-ready DevOps demonstration project that integrates key industry tools into a unified, secure, and observable workflow. It is designed to showcase skills in automation, containerization, and security.
+---
+
+**Sentinella-Ops** คือโปรเจ็ค DevOps ต้นแบบที่รวมเอาเครื่องมือมาตรฐานอุตสาหกรรม (Industry Standard) มาสร้างเป็นระบบ **Production-Ready** ที่เน้นความปลอดภัยและการวัดผลแบบ Real-time ออกแบบมาเพื่อโชว์ทักษะในระดับมืออาชีพโดยเฉพาะ
+
+[**🚀 Quick Start**](#-quick-start) • [**🏗️ Architecture**](#%EF%B8%8F-architecture) • [**🛡️ Security**](#-technical-decisions) • [**📊 Monitoring**](#-observability-stack)
+
+</div>
 
 ---
 
@@ -10,88 +26,99 @@ Sentinella-Ops is a production-ready DevOps demonstration project that integrate
 
 ```mermaid
 graph LR
-    A[Developer] -->|Git Push| B(GitHub Repo)
+    A[👨‍💻 Developer] -->|Git Push| B(GitHub Repo)
     subgraph GitHub Actions Pipeline
     B --> C{CI Pipeline}
-    C --> D[Lint & Unit Test]
-    D --> E[Security Scan - Trivy]
-    E --> F[Build Docker Image]
-    F --> G[Push to GHCR]
+    C --> D[✅ Lint & Unit Test]
+    D --> E[🛡️ Security Scan - Trivy]
+    E --> F[📦 Build Docker Image]
+    F --> G[🚀 Push to GHCR]
     end
     G --> H{CD Deployment}
-    H --> I[Deploy to Server/Cloud]
+    H --> I[🌐 Server/Cloud Node]
     subgraph Observability Stack
-    I --> J[Prometheus]
-    J --> K[Grafana Dashboard]
+    I --> J[🔥 Prometheus]
+    J --> K[📈 Grafana Dashboard]
     end
+    
+    style E fill:#f96,stroke:#333,stroke-width:2px
+    style K fill:#36f,stroke:#fff,stroke-width:2px
 ```
 
 ---
 
-## 🚀 Key Features
+## ✨ Key Features
 
-- **⚡ High-Performance API**: Built with **FastAPI** for low-latency and high throughput.
-- **🐳 Secure Containerization**: Uses **Multi-stage Docker builds** to ensure a minimal attack surface and small image size.
-- **🛡️ Automated Security**: **Trivy** vulnerability scanning integrated directly into the CI/CD pipeline.
-- **📊 Full Observability**: Real-time metrics collection via **Prometheus** and visualization via **Grafana**.
-- **⚙️ Infrastructure-as-Code**: Includes **Terraform** scripts for cloud resource provisioning.
-- **🔄 Modern CI/CD**: Fully automated pipeline using **GitHub Actions**.
+*   **⚡ FastAPI Performance**: ระบบ Backend ที่รวดเร็วและรองรับโหลดได้สูง พร้อมระบบจัดการ Metrics ในตัว
+*   **🐳 Multi-stage Containerization**: การแพ็กแอปที่แยกขั้นตอน Build และ Run ออกจากกัน เพื่อลดขนาดไฟล์และเพิ่มความปลอดภัย
+*   **🛡️ DevSecOps Ready**: ผสาน **Trivy Vulnerability Scan** ใน Pipeline เพื่อสแกนหาช่องโหว่ (CVEs) ในระดับ OS และ Library
+*   **🔥 Real-time Observability**: มอนิเตอร์ระบบผ่าน **Prometheus** และดูข้อมูลผ่าน Dashboard ที่ออกแบบไว้แล้วใน **Grafana**
+*   **⚙️ Infrastructure-as-Code**: มีไฟล์ **Terraform** สำหรับการเตรียม Cloud Instance อย่างรวดเร็ว
 
 ---
 
-## 🛠️ Project Structure
+## 📂 Project Structure
 
 ```text
 sentinella-ops/
 ├── .github/workflows/
-│   └── pipeline.yml       # Secure CI/CD Pipeline
-├── app/                   # Backend Application (Python FastAPI)
-│   ├── main.py            # Main API Logic
-│   ├── test_main.py       # Automated Unit Tests
-│   └── requirements.txt   # Dependencies
-├── monitoring/            # Observability Configuration
-│   ├── prometheus.yml     # Prometheus Scrape Config
-│   └── grafana-provisioning/ # Grafana Data & Dashboards
-├── scripts/               # Helper Scripts
-│   └── setup.sh           # Local Environment Setup
-├── terraform/             # Infrastructure as Code
-│   └── main.tf            # Cloud Provisioning Script
-├── Dockerfile             # Multi-stage Container Definition
-└── docker-compose.yml     # Local Service Orchestration (Local Dev)
+│   └── pipeline.yml       # 🤖 หัวใจหลักของ CI/CD และความปลอดภัย
+├── app/                   # 🐍 โค้ด Backend (Python FastAPI)
+│   ├── main.py            # 🧠 Logic และการตั้งค่า Metrics
+│   ├── test_main.py       # ✅ ระบบทดสอบอัตโนมัติ
+│   └── requirements.txt   # 📦 รายการ dependencies
+├── monitoring/            # 📊 การตั้งค่าระบบวัดผล
+│   ├── prometheus.yml     # 🔥 คอนฟิกการดึงข้อมูล
+│   └── grafana-provisioning/ # 📈 ระบบ Dashboard และ Datasource อัตโนมัติ
+├── scripts/               # 📜 สคริปต์ตัวช่วย
+│   └── setup.sh           # 🚀 ติดตั้งระบบในเครื่องเดียว
+├── terraform/             # ☁️ Infrastructure as Code
+│   └── main.tf            # 🏗️ คอนฟิก Cloud Server
+├── Dockerfile             # 🐳 การแพ็ก Container แบบปลอดภัย
+└── docker-compose.yml     # 🕸️ การรันทั้งระบบรวมกัน
 ```
 
 ---
 
-## 🚦 Quick Start
+## 🚀 Quick Start
 
-### 1. Local Environment Setup
-To run the entire stack locally (App + Prometheus + Grafana):
+### 1. รันภายในเครื่องเดียว (Local Setup)
+เพื่อให้ได้ระบบที่ครบถ้วนทั้ง App, Prometheus และ Grafana ให้ใช้คำสั่งนี้:
 ```bash
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
 ```
 
-### 2. Access the Services
-- **API**: [http://localhost:8000](http://localhost:8000)
-- **Health Check**: [http://localhost:8000/health](http://localhost:8000/health)
-- **Prometheus**: [http://localhost:9090](http://localhost:9090)
-- **Grafana**: [http://localhost:3000](http://localhost:3000) (User/Pass: `admin/admin`)
+### 2. ตรวจสอบการทำงาน
+| บริการ | URL | การเข้าใช้งาน |
+| :--- | :--- | :--- |
+| **API Endpoint** | [http://localhost:8000](http://localhost:8000) | - |
+| **Health Check** | [http://localhost:8000/health](http://localhost:8000/health) | - |
+| **Prometheus** | [http://localhost:9090](http://localhost:9090) | - |
+| **Grafana** | [http://localhost:3000](http://localhost:3000) | `admin` / `admin` |
 
 ---
 
-## 🛡️ Technical Decisions Breakdown
+## 🛡️ Technical Decisions (ทำไมถึงเลือกใช้?)
 
-### 🔹 Why FastAPI + Instrumentator?
-FastAPI provides high performance and automatic Swagger documentation. Integrating with `prometheus-fastapi-instrumentator` allows for standard metrics collection (RPS, Latency, Error rates) with zero manual instrumentation of routes.
+### 🔹 Security (Shift-Left)
+เราใช้ **Trivy** ในการสแกน Docker Image ก่อนส่งขึ้น Registry หากมีช่องโหว่ระดับ `CRITICAL` หรือ `HIGH` ระบบ Pipeline จะหยุดทำงานทันที เพื่อป้องกันความเสี่ยงที่จะเกิดในอนาคต
 
-### 🔹 Why Multi-stage Builds?
-The first stage installs build dependencies and compiles requirements. The second stage only copies the necessary binaries and app code into a `slim` image, reducing the production image size by ~40% and removing build tools that could be exploited.
+### 🔹 Container Optimization
+ใช้โครงสร้าง **Multi-stage build** ทำให้ Image สุดท้ายมีเพียงสิ่งที่จำเป็นจริงๆ ไม่มีเครื่องมือ Build tools เหลืออยู่ ช่วยลดขนาดลงได้กว่า 40% และลดพื้นที่การโจมตี (Attack Surface)
 
-### 🔹 Why Trivy?
-Security shouldn't be an afterthought. Trivy scans both OS packages and application dependencies for known CVEs. Any `CRITICAL` or `HIGH` vulnerabilities will break the pipeline, preventing insecure code from reaching production.
+### 🔹 Observability
+การใช้ `Instrumentator` ใน FastAPI ทำให้เราไม่ต้องเขียนโค้ดเก็บ Log เอง แต่สามารถดึงค่า RPS, Latency และ Error Rate ไปพล็อตกราฟใน Grafana ได้ทันที
 
 ---
 
 ## 👨‍💻 Author
 **[Your Name]** - DevOps Engineer
-*(Feel free to link your LinkedIn or Portfolio here!)*
+*   **LinkedIn**: [Link to your Profile]
+*   **Portfolio**: [Link to your Site]
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ for the DevOps Community.</sub>
+</div>
