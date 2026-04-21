@@ -15,8 +15,10 @@ RUN pip install --user --no-cache-dir -r requirements.txt
 # Stage 2: ขั้นตอนการสร้าง Production Image (เน้นขนาดเล็กและปลอดภัย)
 FROM python:3.11-slim
 
-# Patch ช่องโหว่ความปลอดภัยระดับ OS ใน Production Image
-RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+# Patch ช่องโหว่ และติดตั้ง curl สำหรับ Healthcheck
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
