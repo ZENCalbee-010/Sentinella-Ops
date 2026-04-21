@@ -9,6 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io # GitHub Container Registry
   IMAGE_NAME: ${{ github.repository }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # ย้ายไปใช้ Node 24 ตามคำแนะนำของ GitHub
 
 jobs:
   # Job 1: ตรวจสอบความถูกต้องของโค้ดและการทำงาน (Lint & Test)
