@@ -1,5 +1,5 @@
 # Stage 1: ขั้นตอนการ Build dependencies
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 WORKDIR /build
 
@@ -26,7 +26,7 @@ COPY app/ .
 
 # ตั้งค่า PATH และสิทธิ์การเข้าถึงไฟล์
 ENV PATH=/home/sentinella/.local/bin:$PATH
-RUN chown -r sentinella:sentinella /app /home/sentinella
+RUN chown -R sentinella:sentinella /app /home/sentinella
 
 # สลับมาใช้ User ที่สร้างไว้
 USER sentinella
